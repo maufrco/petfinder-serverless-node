@@ -11,7 +11,20 @@ console.log(IS_OFFLINE, USERS_TABLE)
 
 AWS.config.setPromisesDependency(Promise);
 
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+let dynamoDb;
+
+if (IS_OFFLINE === 'true') {
+  dynamoDb = new AWS.DynamoDB.DocumentClient({
+    region: 'localhost',
+    endpoint: 'http://localhost:8000'
+  })
+  console.log(dynamoDb);
+} else {
+  dynamoDb = new AWS.DynamoDB.DocumentClient();
+};
+
+
+
 
 app.use(bodyParser.json({ strict: false }));
 
